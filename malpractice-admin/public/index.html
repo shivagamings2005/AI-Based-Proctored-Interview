@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proctoring System Admin</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.9/babel.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fa;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 8px;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .checkbox-item {
+      flex: 1 1 45%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      margin-top: 20px;
+      text-align: center;
+      color: #28a745;
+    }
+    .error {
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [emails, setEmails] = useState('');
+      const [examName, setExamName] = useState('');
+      const [sessionMode, setSessionMode] = useState('AI Interview');
+      const [privileges, setPrivileges] = useState({
+        multiFace: 0,
+        noFace: 0,
+        screenGaze: 1,
+        multiSpeaker: 0
+      });
+      const [message, setMessage] = useState('');
+
+      const handlePrivilegeChange = (e) => {
+        const { name, checked } = e.target;
+        setPrivileges(prev => ({
+          ...prev,
+          [name]: checked ? 1 : 0
+        }));
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        const emailArray = emails.split(',').map(email => email.trim()).filter(email => email);
+        
+        if (emailArray.length === 0) {
+          setMessage('Please enter at least one valid email.');
+          return;
+        }
+        if (!examName.trim()) {
+          setMessage('Please enter an exam name.');
+          return;
+        }
+        if (!sessionMode) {
+          setMessage('Please select a session mode.');
+          return;
+        }
+
+        try {
+          const response = await fetch('http://localhost:5001/api/proctoring', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ emails: emailArray, privileges, examName, sessionMode })
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setMessage(data.message);
+            setEmails('');
+            setExamName('');
+            setSessionMode('AI Interview');
+            setPrivileges({ multiFace: 0, noFace: 0, screenGaze: 1, multiSpeaker: 0 });
+          } else {
+            setMessage(data.error || 'Failed to save data.');
+          }
+        } catch (error) {
+          setMessage('Error connecting to server.');
+        }
+      };
+
+      return (
+        <div className="container">
+          <h1>Proctoring System Admin</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="examName">Exam Code:</label>
+              <input
+                type="text"
+                id="examName"
+                value={examName}
+                onChange={(e) => setExamName(e.target.value)}
+                placeholder="Enter exam code"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="sessionMode">Session Mode:</label>
+              <select
+                id="sessionMode"
+                value={sessionMode}
+                onChange={(e) => setSessionMode(e.target.value)}
+              >
+                <option value="AI Interview">AI Interview</option>
+                <option value="Virtual Interview">Virtual Interview</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="emails">Enter Gmail Addresses (comma-separated):</label>
+              <input
+                type="text"
+                id="emails"
+                value={emails}
+                onChange={(e) => setEmails(e.target.value)}
+                placeholder="user1@gmail.com, user2@gmail.com"
+              />
+            </div>
+            <div className="form-group">
+              <label>Monitoring Options:</label>
+              <div className="checkbox-group">
+                <div className="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="multiFace"
+                    name="multiFace"
+                    checked={privileges.multiFace === 1}
+                    onChange={handlePrivilegeChange}
+                  />
+                  <label htmlFor="multiFace">Multi-Face Detection</label>
+                </div>
+                <div className="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="noFace"
+                    name="noFace"
+                    checked={privileges.noFace === 1}
+                    onChange={handlePrivilegeChange}
+                  />
+                  <label htmlFor="noFace">No-Face Detection</label>
+                </div>
+                <div className="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="screenGaze"
+                    name="screenGaze"
+                    checked={privileges.screenGaze === 1}
+                    onChange={handlePrivilegeChange}
+                  />
+                  <label htmlFor="screenGaze">Screen Gaze Tracking</label>
+                </div>
+                <div className="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="multiSpeaker"
+                    name="multiSpeaker"
+                    checked={privileges.multiSpeaker === 1}
+                    onChange={handlePrivilegeChange}
+                  />
+                  <label htmlFor="multiSpeaker">Multi-Speaker Detection</label>
+                </div>
+              </div>
+            </div>
+            <button type="submit">Save to Database</button>
+          </form>
+          {message && <div className={`message ${message.includes('Error') ? 'error' : ''}`}>{message}</div>}
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
