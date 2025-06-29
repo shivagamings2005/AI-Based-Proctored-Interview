@@ -1,0 +1,284 @@
+.main-meet-area {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 1fr;
+  gap: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(224, 231, 255, 0.9));
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  position: relative;
+}
+
+.controls-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.meet-content {
+  grid-column: 2;
+  grid-row: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.ai-interview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.answer-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.textarea-container {
+  position: relative;
+  width: 100%;
+}
+
+.textarea-container .mic-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.textarea-container .mic-btn:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.textarea-container .mic-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.textarea-container .mic-btn.mic-on {
+  color: #ff0000; /* Red when recording */
+}
+
+.textarea-container .mic-btn.mic-off {
+  color: #333; /* Gray when off */
+}
+
+.submit-answer-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-answer-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.next-question-btn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.next-question-btn:hover {
+  background-color: #218838;
+}
+
+.ai-response {
+  background-color: #e9ecef;
+  padding: 15px;
+  border-radius: 4px;
+}
+.mock-meet-image {
+  position: fixed;
+  top: 30%;
+  left: 50%; /* remove the +150px offset */
+  transform: translate(-50%, -50%);
+  
+  width: auto;
+  max-width: 850px;
+  max-height: 90vh;
+  
+  object-fit: contain;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  
+  z-index: 1000; /* increased to ensure it sits above everything */
+}
+
+
+@media (max-width: 900px) {
+  .main-meet-area {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: auto;
+  }
+
+  .controls-column {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .meet-content {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+  .mock-meet-image {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-meet-area {
+    padding: 15px;
+  }
+
+  .mock-meet-image {
+    max-height: 300px;
+  }
+}
+
+/* Non-AI Interview container */
+.non-ai-interview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Image container for mock image and mic button */
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Position mic button at bottom-right of image */
+.image-container{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #ffffff;
+  border: 2px solid #4a90e2;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.image-container .mic-btn{
+  position:fixed;
+  top: 58%;
+  width: 40px;
+  height: 40px;
+  left: 50%
+}
+
+.image-container .mic-btn.mic-on {
+  background-color: #4a90e2;
+  color: #ffffff;
+}
+
+.image-container .mic-btn.mic-off {
+  background-color: #ffffff;
+  color: #4a90e2;
+}
+
+.image-container .mic-btn:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.image-container .mic-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  color: #666666;
+}
+
+/* Live caption styling */
+.live-caption {
+  position: fixed;
+  left: 20%;
+  top: 63%;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f0f4f8;
+  border-radius: 5px;
+  width: 60%;
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Chat history styling */
+.chat-history {
+  position:fixed;
+  top: 68%;
+  left: 20%;
+  margin-top: 20px;
+  width: 60%;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.chat-history h4 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.chat-history-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.chat-entry {
+  font-size: 14px;
+  color: #333;
+}
+
+.chat-timestamp {
+  font-weight: bold;
+  color: #4a90e2;
+}

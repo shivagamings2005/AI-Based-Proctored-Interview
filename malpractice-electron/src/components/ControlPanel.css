@@ -1,0 +1,50 @@
+.control-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 15px;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(226, 232, 240, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.control-section:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.control-section h3 {
+  margin-bottom: 10px;
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.monitoring-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 10px;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4d77eb;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  transition: all 0.3s ease;
+}
+
+.info-item:hover {
+  background: rgba(241, 245, 249, 0.9);
+  transform: translateX(4px);
+}
+
+.info-icon {
+  font-size: 16px;
+  min-width: 20px;
+}

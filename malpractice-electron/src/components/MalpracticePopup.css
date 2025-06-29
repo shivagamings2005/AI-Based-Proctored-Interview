@@ -1,0 +1,105 @@
+
+/* Malpractice Popup */
+.malpractice-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; 
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.7) !important; 
+  pointer-events: auto; 
+}
+
+.popup-content {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  padding: 48px;
+  border-radius: 24px;
+  text-align: center;
+  max-width: 520px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  animation: popupAnimation 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10001;
+  pointer-events: auto;
+}
+
+@keyframes popupAnimation {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.popup-content h2 {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #ffffff;
+}
+
+.popup-content p {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin-bottom: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.popup-close-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+  color: #dc2626;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  padding: 16px 40px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 28px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 160px;
+  pointer-events: auto;
+}
+
+.popup-close-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.popup-close-btn:hover::before {
+  left: 100%;
+}
+
+.popup-close-btn:hover {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  color: #b91c1c;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 1);
+}
+
+.popup-close-btn:active {
+  transform: translateY(-1px) scale(1.02);
+  transition: all 0.1s ease;
+}

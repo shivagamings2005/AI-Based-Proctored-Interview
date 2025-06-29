@@ -1,0 +1,196 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #1a202c;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e0 100%);
+  position: relative;
+}
+
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="%23000" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+  z-index: 1;
+}
+
+.app > * {
+  position: relative;
+  z-index: 2;
+}
+
+.app.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+}
+
+/* Loading Screen */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  
+  background: linear-gradient(135deg, #f5f7fa 0%, #e0e7ff 100%);
+  color: #2d3748;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top: 4px solid #60a5fa;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error Screen */
+.error-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  
+  background: linear-gradient(135deg, #f5f7fa 0%, #e0e7ff 100%);
+  color: #2d3748;
+}
+
+.retry-btn {
+  background: #60a5fa;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #3b82f6;
+}
+
+/* Main Content */
+.app-main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.meet-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 20px;
+  height: calc(100vh - 100px);
+  position: relative;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideInChat {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .meet-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .video-section {
+    position: static;
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+  }
+
+  .main-meet-area {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .chat-panel {
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .waiting-area {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .waiting-video-container {
+    width: 100%;
+    max-width: 480px;
+    height: 270px;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .waiting-info h2 {
+    font-size: 1.5em;
+  }
+
+  .join-btn {
+    padding: 12px 30px;
+    font-size: 16px;
+  }
+}
