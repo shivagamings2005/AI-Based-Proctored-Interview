@@ -1,0 +1,1 @@
+A smart proctoring system with multi-face and multi-audio detection, screen lock, and an AI interviewer/Live Video Interview that conducts real-time interviews with live captions and voice-based responses.
